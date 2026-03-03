@@ -1,0 +1,8 @@
+{
+  "python.analysis.typeCheckingMode": "basic", // 型チェックを有効化
+  "editor.formatOnSave": true,                // 保存時に自動でコードを綺麗にする
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "python.defaultInterpreterPath": "./venv/bin/python" // 仮想環境を優先
+}
