@@ -43,10 +43,15 @@ python main.py
 
 club-pay/
 ├── backend/
+
 │   ├── main.py           # メインアプリケーション
+
 │   ├── requirements.txt  # 依存ライブラリ一覧
+
 │   └── credentials.json  # Google認証ファイル
+
 ├── .env                  # 環境変数設定
+
 └── README.md             # 本ドキュメント
 
 技術スタック
