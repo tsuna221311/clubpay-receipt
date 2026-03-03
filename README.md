@@ -42,6 +42,7 @@ python main.py
 プロジェクト構成
 
 club-pay/
+
 ├── backend/
 
 │   ├── main.py           # メインアプリケーション
