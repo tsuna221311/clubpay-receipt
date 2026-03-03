@@ -1,134 +1,71 @@
-# 部活精算AI システム
-
+部活精算AIシステム
 レシート画像をアップロードするだけで、AIが自動的に品目・金額・日付を抽出し、Googleスプレッドシートに記録するシステムです。
 
-## 🎯 機能
+主な機能
+自動データ抽出: アップロードされたレシート画像から、Gemini APIが内容を解析します。
 
-- 📸 レシート画像のアップロード
-- 🤖 Google Gemini APIによる自動データ抽出
-- 📊 Google Sheetsへの自動保存
-- 🎨 モダンで使いやすいUI（Tailwind CSS）
+スプレッドシート連携: 解析した「日付・品目・金額」をGoogleスプレッドシートへ即座に保存します。
 
-## 🔧 必要な準備
+直感的なインターフェース: Tailwind CSSを採用した、シンプルで実用的なUIを提供します。
 
-### 1. Google Generative AI APIキーの取得
+導入手順
+1. 各種キーとシートの準備
+Gemini APIキーの取得: Google AI StudioからAPIキーを発行します。
 
-1. [Google AI Studio](https://aistudio.google.com/apikey) にアクセス
-2. 「API key を作成」をクリック
-3. 生成されたAPIキーをコピー
+スプレッドシートの作成: Google Sheetsで新規シートを作成し、URLから SHEET_ID を取得します。
 
-### 2. Google Sheetsの準備
+形式: https://docs.google.com/spreadsheets/d/{SHEET_ID}/edit
 
-1. [Google Sheets](https://sheets.google.com) で新しいスプレッドシートを作成
-2. スプレッドシートURLから以下の形式のIDを取得：
-   ```
-   https://docs.google.com/spreadsheets/d/{SHEET_ID}/edit
-   ```
-3. 最初の行にヘッダーを作成（例：日付、品目、金額）
+Google Sheets APIの設定: Google Cloud Consoleでプロジェクトを作成し、サービスアカウントの credentials.json を取得して backend/ フォルダへ配置してください。
 
-### 3. Google Sheets認証ファイルの準備
+2. 環境構築
+プロジェクトをクローン後、以下の手順で設定を行います。
 
-1. [Google Cloud Console](https://console.cloud.google.com/) にアクセス
-2. 新しいプロジェクトを作成
-3. Google Sheets APIを有効化
-4. サービスアカウントを作成
-5. `credentials.json` をダウンロード
-6. プロジェクトの `backend/` フォルダに配置
-
-## 📦 インストール
-
-### 1. 依存ライブラリのインストール
-
-```bash
+Bash
+# 依存ライブラリのインストール
 cd backend
 pip install -r requirements.txt
-```
+.env ファイルを作成し、APIキーを記述します。
 
-### 2. 環境変数の設定
-
-`.env` ファイルを開いて、取得したAPIキーを設定：
-
-```env
+コード スニペット
 GENAI_API_KEY=your_api_key_here
-```
+使用方法
+サーバーの起動:
 
-### 3. main.py の設定
-
-`backend/main.py` の設定部分を編集：
-
-```python
-# --- 設定 ---
-GENAI_API_KEY = "your_api_key_here"
-SHEET_ID = "your_sheet_id_here"
-```
-
-## 🚀 使い方
-
-### サーバーの起動
-
-```bash
-cd backend
+Bash
 python main.py
-```
+ブラウザでのアクセス: http://127.0.0.1:8000 を開きます。
 
-ブラウザで `http://127.0.0.1:8000` にアクセス
+レシートの登録: 画像をアップロードすると、自動的にスプレッドシートへデータが転記されます。
 
-### レシートの登録
-
-1. 「クリックまたはドラッグ&ドロップ」エリアにレシート画像をアップロード
-2. AIが自動的に以下を抽出：
-   - 📝 品目名
-   - 💰 金額
-   - 📅 日付
-3. スプレッドシートに自動保存
-
-## 📋 プロジェクト構成
-
-```
+プロジェクト構成
+Plaintext
 club-pay/
 ├── backend/
-│   ├── main.py              # メインアプリケーション
-│   ├── requirements.txt      # 依存ライブラリ
-│   └── credentials.json      # Google認証ファイル
-├── .env                      # 環境変数設定
-└── README.md                 # このファイル
-```
+│   ├── main.py           # メインアプリケーション
+│   ├── requirements.txt  # 依存ライブラリ一覧
+│   └── credentials.json  # Google認証ファイル
+├── .env                  # 環境変数設定
+└── README.md             # 本ドキュメント
+技術スタック
+Backend: FastAPI
 
-## 🛠️ 技術スタック
+AI: Google Gemini 1.5 Flash
 
-- **フレームワーク**: FastAPI
-- **AI/ML**: Google Generative AI (Gemini 1.5 Flash)
-- **スプレッドシート連携**: gspread
-- **画像処理**: PIL
-- **フロントエンド**: HTML/CSS (Tailwind CSS)
+Integration: gspread (Google Sheets API)
 
-## ⚠️ 注意事項
+Frontend: HTML / CSS (Tailwind CSS)
 
-- `credentials.json` と `.env` ファイルはGitにコミットしないでください（`.gitignore` に追加済み）
-- APIキーは絶対に公開しないでください
-- Google Cloud の無料枠を超えないようご注意ください
+注意事項
+セキュリティ: credentials.json や .env は機密情報を含むため、Gitなどの公開環境にコミットしないでください。
 
-## 🐛 トラブルシューティング
+権限設定: 作成したサービスアカウントのメールアドレスに対し、対象スプレッドシートの編集権限を付与する必要があります。
 
-### APIキーが無効と言われる場合
-- APIキーが正しくコピーされているか確認
-- `.env` ファイルが正しく保存されているか確認
-- main.py の `GENAI_API_KEY` が `""` になっていないか確認
+トラブルシューティング
+システムが正常に動作しない場合は、以下の点を確認してください。
 
-### スプレッドシートに保存されない場合
-- `credentials.json` が `backend/` フォルダにあるか確認
-- `SHEET_ID` が正しいか確認
-- サービスアカウントにシートの編集権限があるか確認
+credentials.json が適切なディレクトリに配置されているか。
 
-### 画像が解析できない場合
-- 対応形式：JPEG、PNG
-- 画像が見やすいレシートか確認
-- インターネット接続を確認
+サービスアカウントにスプレッドシートの共有権限が与えられているか。
 
-## 📝 ライセンス
-
-このプロジェクトはMITライセンスの下で公開されています。
-
-## 👨‍💻 サポート
-
-問題が発生した場合は、上記のトラブルシューティングをご確認ください。
+APIキーの有効期限や制限設定に問題がないか。
