@@ -40,7 +40,7 @@ python main.py
 レシートの登録: 画像をアップロードすると、自動的にスプレッドシートへデータが転記されます。
 
 プロジェクト構成
-Plaintext
+
 club-pay/
 ├── backend/
 │   ├── main.py           # メインアプリケーション
@@ -48,6 +48,7 @@ club-pay/
 │   └── credentials.json  # Google認証ファイル
 ├── .env                  # 環境変数設定
 └── README.md             # 本ドキュメント
+
 技術スタック
 Backend: FastAPI
 
